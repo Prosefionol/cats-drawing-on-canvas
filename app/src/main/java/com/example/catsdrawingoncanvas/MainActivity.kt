@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CatsDrawingOnCanvasTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Playground(
+                    AnotherPlayground(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
