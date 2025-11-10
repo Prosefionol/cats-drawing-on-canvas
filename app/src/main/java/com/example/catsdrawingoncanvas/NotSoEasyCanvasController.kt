@@ -1,28 +1,34 @@
 package com.example.catsdrawingoncanvas
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
 import androidx.compose.ui.geometry.isUnspecified
 import androidx.compose.ui.graphics.Matrix
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun rememberNotSoEasyCanvasController(
     initialContentRect: Rect,
     initialContentScale: CanvasContentScale
 ): NotSoEasyCanvasController {
+    val scope = rememberCoroutineScope()
     return remember(initialContentRect, initialContentScale) {
-        NotSoEasyCanvasController(initialContentRect, initialContentScale)
+        NotSoEasyCanvasController(initialContentRect, initialContentScale, scope)
     }
 }
 
 class NotSoEasyCanvasController(
     initialContentRect: Rect,
     initialContentScale: CanvasContentScale,
+    private val scope: CoroutineScope
 ) {
     val contentRect: Rect = initialContentRect
     val contentScale: CanvasContentScale = initialContentScale
@@ -30,7 +36,11 @@ class NotSoEasyCanvasController(
     private var canvasFocus: CanvasFocus = CanvasFocus.Region(contentRect, contentScale)
     private var canvasSize: Size = Size.Unspecified
 
-    private val contentMatrixState = mutableStateOf(Matrix())
+    private val contentMatrixAnimatable = Animatable(
+        initialValue = Matrix(),
+        typeConverter = MatrixTwoWayConverter
+    )
+    private val contentMatrixState = contentMatrixAnimatable.asState()
 
     val contentMatrix: Matrix get() = contentMatrixState.value
     val invertedContentMatrix: Matrix get() {
@@ -40,7 +50,7 @@ class NotSoEasyCanvasController(
 
     fun focusOnViewPoint(offset: Offset, zoom: Float = this.zoom * 1.5f) {
         val contentOffset = invertedContentMatrix.map(offset)
-        setCanvasFocus(CanvasFocus.Point(contentOffset, zoom))
+        setCanvasFocus(CanvasFocus.Point(contentOffset, zoom), animate = true)
     }
 
     fun setCanvasSize(size: Size) {
@@ -50,14 +60,14 @@ class NotSoEasyCanvasController(
         }
     }
 
-    private fun setCanvasFocus(focus: CanvasFocus) {
+    private fun setCanvasFocus(focus: CanvasFocus, animate: Boolean = false) {
         if (this.canvasFocus != focus) {
             this.canvasFocus = focus
-            updateContentMatrix()
+            updateContentMatrix(animate)
         }
     }
 
-    private fun updateContentMatrix() {
+    private fun updateContentMatrix(animate: Boolean = false) {
         val canvasSize = this.canvasSize
         val canvasFocus = this.canvasFocus
         val newMatrix = if (canvasSize.isUnspecified) {
@@ -78,7 +88,16 @@ class NotSoEasyCanvasController(
                 }
             }
         }
-        this.contentMatrixState.value = newMatrix
+        scope.launch {
+            if (animate) {
+                contentMatrixAnimatable.animateTo(
+                    targetValue = newMatrix,
+                    animationSpec = tween(durationMillis = 1000)
+                )
+            } else {
+                contentMatrixAnimatable.snapTo(targetValue = newMatrix)
+            }
+        }
     }
 
     private fun getContentMatrix(
