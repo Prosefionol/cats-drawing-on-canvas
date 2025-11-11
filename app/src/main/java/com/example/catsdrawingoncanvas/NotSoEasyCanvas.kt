@@ -1,6 +1,7 @@
 package com.example.catsdrawingoncanvas
 
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -93,6 +94,11 @@ fun NotSoEasyCanvas(
                         controller.focusOnViewPoint(offset)
                     }
                 )
+            }
+            .pointerInput(Unit) {
+                detectTransformGestures { centroid, pan, zoom, _ ->
+                    controller.panAndZoom(centroid, pan, zoom)
+                }
             }
     )
 }

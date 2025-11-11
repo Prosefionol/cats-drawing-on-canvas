@@ -46,7 +46,19 @@ class NotSoEasyCanvasController(
     val invertedContentMatrix: Matrix get() {
         return Matrix(contentMatrix.values.copyOf()).apply { invert() }
     }
+
     val zoom: Float get() = contentMatrix.values[Matrix.ScaleX]
+    val offset: Offset get() = Offset(
+        x = contentMatrix.values[Matrix.TranslateX],
+        y = contentMatrix.values[Matrix.TranslateY]
+    )
+
+    fun panAndZoom(centroid: Offset, offsetDif: Offset, zoomDif: Float) {
+        val newZoom = this.zoom * zoomDif
+        val newOffset = this.offset + offsetDif
+        val contentOffset = (centroid - newOffset) / this.zoom - (centroid - canvasSize.center) / newZoom
+        setCanvasFocus(CanvasFocus.Point(contentOffset, newZoom))
+    }
 
     fun focusOnViewPoint(offset: Offset, zoom: Float = this.zoom * 1.5f) {
         val contentOffset = invertedContentMatrix.map(offset)
