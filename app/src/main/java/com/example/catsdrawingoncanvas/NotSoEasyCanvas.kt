@@ -11,9 +11,11 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Matrix
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
@@ -79,15 +81,24 @@ private class NotSoEasyCacheDrawScopeImpl(
 fun NotSoEasyCanvas(
     controller: NotSoEasyCanvasController,
     modifier: Modifier,
+    useGraphicLayer: Boolean = false,
     onDraw: NotSoEasyCacheDrawScope.() -> DrawResult
 ) {
+    val graphicLayerModifier = if (useGraphicLayer) {
+        Modifier.graphicsLayer {
+            controller.setCanvasSize(size)
+            translationX = controller.offset.x
+            translationY = controller.offset.y
+            scaleX = controller.zoom
+            scaleY = controller.zoom
+            transformOrigin = TransformOrigin(0f, 0f)
+
+        }
+    } else {
+        Modifier
+    }
     Box(
         modifier = modifier
-            .drawWithCache {
-                controller.setCanvasSize(size)
-                val scope = NotSoEasyCacheDrawScopeImpl(controller, this)
-                scope.onDraw()
-            }
             .pointerInput(Unit) {
                 detectTapGestures(
                     onDoubleTap = { offset ->
@@ -99,6 +110,12 @@ fun NotSoEasyCanvas(
                 detectTransformGestures { centroid, pan, zoom, _ ->
                     controller.panAndZoom(centroid, pan, zoom)
                 }
+            }
+            .then(graphicLayerModifier)
+            .drawWithCache {
+                controller.setCanvasSize(size)
+                val scope = NotSoEasyCacheDrawScopeImpl(controller, this)
+                scope.onDraw()
             }
     )
 }
