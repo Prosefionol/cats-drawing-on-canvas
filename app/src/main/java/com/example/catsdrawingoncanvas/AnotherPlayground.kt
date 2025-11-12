@@ -27,16 +27,15 @@ fun AnotherPlayground(
     NotSoEasyCanvas(
         controller = controller,
         modifier = modifier
-            .sizeIn(200.dp, 200.dp)
+            .sizeIn(200.dp, 200.dp),
+        useGraphicLayer = true
     ) {
         onDrawBehind {
-            withContentTransform {
-                drawRect(
-                    brush = brush,
-                    topLeft = contentRect.topLeft,
-                    size = contentRect.size
-                )
-            }
+            drawRect(
+                brush = brush,
+                topLeft = contentRect.topLeft,
+                size = contentRect.size
+            )
         }
     }
 }
