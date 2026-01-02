@@ -7,7 +7,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import androidx.navigation.compose.rememberNavController
 import com.example.catsdrawingoncanvas.ui.theme.CatsDrawingOnCanvasTheme
 
 class MainActivity : ComponentActivity() {
@@ -16,12 +22,53 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CatsDrawingOnCanvasTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AnotherPlayground(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                    )
+                CatsDrawingOnCanvasApp()
+            }
+        }
+    }
+}
+
+@Composable
+fun CatsDrawingOnCanvasApp() {
+    val navController = rememberNavController()
+
+    Scaffold(
+        bottomBar = {
+            AppNavigationBar(
+                navController = navController,
+                tabs = MainTabs
+            )
+        }
+    ) { paddingValues ->
+        CompositionLocalProvider(
+            LocalNavController provides navController
+        ) {
+            NavHost(
+                navController = navController,
+                startDestination = QrGraph,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+                navigation<QrGraph>(
+                    startDestination = QrGraph.QrRoute
+                ) {
+                    composable<QrGraph.QrRoute> {
+                        Playground(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        )
+                    }
+                }
+                navigation<KaleidoscopeGraph>(
+                    startDestination = KaleidoscopeGraph.KaleidoscopeRoute
+                ) {
+                    composable<KaleidoscopeGraph.KaleidoscopeRoute> {
+                        AnotherPlayground(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        )
+                    }
                 }
             }
         }
