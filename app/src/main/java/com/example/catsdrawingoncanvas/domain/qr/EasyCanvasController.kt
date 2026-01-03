@@ -1,4 +1,4 @@
-package com.example.catsdrawingoncanvas
+package com.example.catsdrawingoncanvas.domain.qr
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -6,6 +6,8 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Matrix
+import com.example.catsdrawingoncanvas.domain.CanvasContentScale
+import com.example.catsdrawingoncanvas.domain.calculateContentZoom
 
 @Composable
 fun rememberEasyCanvasController(

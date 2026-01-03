@@ -1,4 +1,4 @@
-package com.example.catsdrawingoncanvas
+package com.example.catsdrawingoncanvas.domain.kaleidoscope
 
 import org.intellij.lang.annotations.Language
 

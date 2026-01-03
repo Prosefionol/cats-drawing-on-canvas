@@ -1,4 +1,4 @@
-package com.example.catsdrawingoncanvas
+package com.example.catsdrawingoncanvas.domain
 
 import androidx.compose.ui.geometry.Size
 import kotlin.math.max

@@ -1,4 +1,4 @@
-package com.example.catsdrawingoncanvas
+package com.example.catsdrawingoncanvas.domain.kaleidoscope
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
@@ -11,6 +11,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
 import androidx.compose.ui.geometry.isUnspecified
 import androidx.compose.ui.graphics.Matrix
+import com.example.catsdrawingoncanvas.domain.kaleidoscope.MatrixTwoWayConverter
+import com.example.catsdrawingoncanvas.domain.CanvasContentScale
+import com.example.catsdrawingoncanvas.domain.calculateContentZoom
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package com.example.catsdrawingoncanvas
+package com.example.catsdrawingoncanvas.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,6 +14,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.example.catsdrawingoncanvas.ui.navigation.AppNavigationBar
+import com.example.catsdrawingoncanvas.ui.navigation.KaleidoscopeGraph
+import com.example.catsdrawingoncanvas.ui.navigation.LocalNavController
+import com.example.catsdrawingoncanvas.ui.navigation.MainTabs
+import com.example.catsdrawingoncanvas.ui.navigation.QrGraph
+import com.example.catsdrawingoncanvas.ui.screens.kaleidoscope.AnotherPlayground
+import com.example.catsdrawingoncanvas.ui.screens.qr.Playground
 import com.example.catsdrawingoncanvas.ui.theme.CatsDrawingOnCanvasTheme
 
 class MainActivity : ComponentActivity() {

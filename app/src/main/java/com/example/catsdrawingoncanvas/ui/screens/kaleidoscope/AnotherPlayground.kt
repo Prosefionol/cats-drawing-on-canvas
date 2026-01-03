@@ -1,4 +1,4 @@
-package com.example.catsdrawingoncanvas
+package com.example.catsdrawingoncanvas.ui.screens.kaleidoscope
 
 import android.graphics.RuntimeShader
 import androidx.compose.foundation.layout.sizeIn
@@ -9,6 +9,10 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.catsdrawingoncanvas.domain.CanvasContentScale
+import com.example.catsdrawingoncanvas.domain.kaleidoscope.NotSoEasyCanvas
+import com.example.catsdrawingoncanvas.domain.kaleidoscope.SHADER_PROGRAM
+import com.example.catsdrawingoncanvas.domain.kaleidoscope.rememberNotSoEasyCanvasController
 
 @Preview(showBackground = true)
 @Composable

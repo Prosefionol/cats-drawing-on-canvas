@@ -1,4 +1,4 @@
-package com.example.catsdrawingoncanvas
+package com.example.catsdrawingoncanvas.ui.navigation
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation.NavController
