@@ -1,4 +1,4 @@
-package com.example.catsdrawingoncanvas
+package com.example.catsdrawingoncanvas.ui.screens.qr
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -18,6 +18,9 @@ import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.catsdrawingoncanvas.domain.CanvasContentScale
+import com.example.catsdrawingoncanvas.domain.qr.EasyCanvas
+import com.example.catsdrawingoncanvas.domain.qr.rememberEasyCanvasController
 
 @Preview(showBackground = true)
 @Composable
@@ -54,7 +57,7 @@ fun Playground(
                 start = Offset(gradientStart, gradientStart),
                 end = Offset(gradientEnd, gradientEnd),
                 tileMode = TileMode.Mirror,
-                colors = listOf(Color.White, Color.Blue, Color.Red),
+                colors = listOf(Color.Black, Color.Red),
             )
             withContentTransform {
                 for (i in 0..7) {

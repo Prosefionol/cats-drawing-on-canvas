@@ -1,7 +1,8 @@
-package com.example.catsdrawingoncanvas
+package com.example.catsdrawingoncanvas.ui.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import com.example.catsdrawingoncanvas.R
 import kotlinx.collections.immutable.persistentListOf
 
 data class AppTab(
