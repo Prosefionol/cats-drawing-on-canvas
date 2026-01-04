@@ -62,6 +62,7 @@ fun CatsDrawingOnCanvasApp() {
                 ) {
                     composable<QrGraph.QrRoute> {
                         Playground(
+                            qrMatrixSize = 30,
                             modifier = Modifier
                                 .fillMaxSize()
                         )
