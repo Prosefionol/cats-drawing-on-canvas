@@ -22,7 +22,9 @@ import com.example.catsdrawingoncanvas.ui.navigation.QrGraph
 import com.example.catsdrawingoncanvas.ui.screens.kaleidoscope.AnotherPlayground
 import com.example.catsdrawingoncanvas.ui.screens.qr.Playground
 import com.example.catsdrawingoncanvas.ui.theme.CatsDrawingOnCanvasTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
