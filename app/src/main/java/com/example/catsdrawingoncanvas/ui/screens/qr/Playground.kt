@@ -20,11 +20,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.catsdrawingoncanvas.domain.CanvasContentScale
 import com.example.catsdrawingoncanvas.domain.qr.EasyCanvas
+import com.example.catsdrawingoncanvas.domain.qr.QrMatrix
 import com.example.catsdrawingoncanvas.domain.qr.rememberEasyCanvasController
 
-@Preview(showBackground = true)
 @Composable
 fun Playground(
+    qrMatrix: QrMatrix?,
     modifier: Modifier = Modifier
 ) {
     val infiniteTransition = rememberInfiniteTransition()
@@ -46,9 +47,10 @@ fun Playground(
     )
     EasyCanvas(
         controller = controller,
-        modifier = modifier.sizeIn(200.dp, 200.dp)
+        modifier = modifier.sizeIn(250.dp, 250.dp)
     ) {
-        val cellSize = contentRect.size / 8f
+        val qrMatrixSize = qrMatrix?.getQrMatrixSize() ?: QrMatrix.DEFAULT_MATRIX_SIZE
+        val cellSize = contentRect.size / qrMatrixSize.toFloat()
         val transformedContentRect = contentMatrix.map(contentRect)
         onDrawBehind {
             val gradientStart = size.width * animatedGradient
@@ -60,24 +62,26 @@ fun Playground(
                 colors = listOf(Color.Black, Color.Red),
             )
             withContentTransform {
-                for (i in 0..7) {
-                    for (j in 0..7) {
-                        val topLeft = Offset(
-                            x = cellSize.width * i,
-                            y = cellSize.height * j
-                        )
-                        if ((i + j) % 2 == 0) {
-                            drawRect(
-                                brush = brush,
-                                topLeft = topLeft,
-                                size = cellSize
+                qrMatrix?.let {
+                    for (i in 0 until qrMatrixSize) {
+                        for (j in 0 until qrMatrixSize) {
+                            val topLeft = Offset(
+                                x = cellSize.width * i,
+                                y = cellSize.height * j
                             )
-                        } else {
-                            drawRect(
-                                color = Color.White,
-                                topLeft = topLeft,
-                                size = cellSize
-                            )
+                            if (qrMatrix.getQrMatrixValue(i, j) == 1) {
+                                drawRect(
+                                    brush = brush,
+                                    topLeft = topLeft,
+                                    size = cellSize
+                                )
+                            } else {
+                                drawRect(
+                                    color = Color.White,
+                                    topLeft = topLeft,
+                                    size = cellSize
+                                )
+                            }
                         }
                     }
                 }
@@ -90,4 +94,12 @@ fun Playground(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PlaygroundPreview() {
+    Playground(
+        qrMatrix = QrMatrix.create(QrMatrix.DEFAULT_MATRIX_SIZE)
+    )
 }

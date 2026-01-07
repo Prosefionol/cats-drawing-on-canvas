@@ -2,4 +2,7 @@
     <string name="app_name">CatsDrawingOnCanvas</string>
     <string name="qr_screen">QR</string>
     <string name="kaleidoscope_screen">Kaleidoscope</string>
+    <string name="card_number">1234 1234 1234 1234 123</string>
+    <string name="qr_screen_button">Refresh QR</string>
+    <string name="qr_timer_text">QR is valid for 0:%02d</string>
 </resources>

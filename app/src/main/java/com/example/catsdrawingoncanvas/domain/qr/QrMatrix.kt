@@ -1,0 +1,217 @@
+package com.example.catsdrawingoncanvas.domain.qr
+
+import androidx.compose.runtime.Stable
+
+@Stable
+class QrMatrix private constructor(private val size: Int) {
+
+    private val matrix: Array<IntArray> = Array(size) { IntArray(size) }
+
+    private val predefinedOnes = listOf(
+        Pair(0,0),
+        Pair(1,0),
+        Pair(2,0),
+        Pair(3,0),
+        Pair(4,0),
+        Pair(5,0),
+        Pair(6,0),
+        Pair(0,1),
+        Pair(6,1),
+        Pair(0,2),
+        Pair(2,2),
+        Pair(3,2),
+        Pair(4,2),
+        Pair(6,2),
+        Pair(0,3),
+        Pair(2,3),
+        Pair(3,3),
+        Pair(4,3),
+        Pair(6,3),
+        Pair(0,4),
+        Pair(2,4),
+        Pair(3,4),
+        Pair(4,4),
+        Pair(6,4),
+        Pair(0,5),
+        Pair(6,5),
+        Pair(0,6),
+        Pair(1,6),
+        Pair(2,6),
+        Pair(3,6),
+        Pair(4,6),
+        Pair(5,6),
+        Pair(6,6),
+        Pair(size - 1,0),
+        Pair(size - 2,0),
+        Pair(size - 3,0),
+        Pair(size - 4,0),
+        Pair(size - 5,0),
+        Pair(size - 6,0),
+        Pair(size - 7,0),
+        Pair(size - 1,1),
+        Pair(size - 7,1),
+        Pair(size - 1,2),
+        Pair(size - 3,2),
+        Pair(size - 4,2),
+        Pair(size - 5,2),
+        Pair(size - 7,2),
+        Pair(size - 1,3),
+        Pair(size - 3,3),
+        Pair(size - 4,3),
+        Pair(size - 5,3),
+        Pair(size - 7,3),
+        Pair(size - 1,4),
+        Pair(size - 3,4),
+        Pair(size - 4,4),
+        Pair(size - 5,4),
+        Pair(size - 7,4),
+        Pair(size - 1,5),
+        Pair(size - 7,5),
+        Pair(size - 1,6),
+        Pair(size - 2,6),
+        Pair(size - 3,6),
+        Pair(size - 4,6),
+        Pair(size - 5,6),
+        Pair(size - 6,6),
+        Pair(size - 7,6),
+        Pair(0,size - 1),
+        Pair(1,size - 1),
+        Pair(2,size - 1),
+        Pair(3,size - 1),
+        Pair(4,size - 1),
+        Pair(5,size - 1),
+        Pair(6,size - 1),
+        Pair(0,size - 2),
+        Pair(6,size - 2),
+        Pair(0,size - 3),
+        Pair(2,size - 3),
+        Pair(3,size - 3),
+        Pair(4,size - 3),
+        Pair(6,size - 3),
+        Pair(0,size - 4),
+        Pair(2,size - 4),
+        Pair(3,size - 4),
+        Pair(4,size - 4),
+        Pair(6,size - 4),
+        Pair(0,size - 5),
+        Pair(2,size - 5),
+        Pair(3,size - 5),
+        Pair(4,size - 5),
+        Pair(6,size - 5),
+        Pair(0,size - 6),
+        Pair(6,size - 6),
+        Pair(0,size - 7),
+        Pair(1,size - 7),
+        Pair(2,size - 7),
+        Pair(3,size - 7),
+        Pair(4,size - 7),
+        Pair(5,size - 7),
+        Pair(6,size - 7),
+        Pair(size - 9,size - 9),
+        Pair(size - 8,size - 9),
+        Pair(size - 7,size - 9),
+        Pair(size - 6,size - 9),
+        Pair(size - 5,size - 9),
+        Pair(size - 9,size - 8),
+        Pair(size - 5,size - 8),
+        Pair(size - 9,size - 7),
+        Pair(size - 7,size - 7),
+        Pair(size - 5,size - 7),
+        Pair(size - 9,size - 6),
+        Pair(size - 5,size - 6),
+        Pair(size - 9,size - 5),
+        Pair(size - 8,size - 5),
+        Pair(size - 7,size - 5),
+        Pair(size - 6,size - 5),
+        Pair(size - 5,size - 5),
+    )
+
+    private val predefinedZeros = listOf(
+        Pair(1,1),
+        Pair(2,1),
+        Pair(3,1),
+        Pair(4,1),
+        Pair(5,1),
+        Pair(1,2),
+        Pair(5,2),
+        Pair(1,3),
+        Pair(5,3),
+        Pair(1,4),
+        Pair(5,4),
+        Pair(1,5),
+        Pair(2,5),
+        Pair(3,5),
+        Pair(4,5),
+        Pair(5,5),
+        Pair(size - 2,1),
+        Pair(size - 3,1),
+        Pair(size - 4,1),
+        Pair(size - 5,1),
+        Pair(size - 6,1),
+        Pair(size - 2,2),
+        Pair(size - 6,2),
+        Pair(size - 2,3),
+        Pair(size - 6,3),
+        Pair(size - 2,4),
+        Pair(size - 6,4),
+        Pair(size - 2,5),
+        Pair(size - 3,5),
+        Pair(size - 4,5),
+        Pair(size - 5,5),
+        Pair(size - 6,5),
+        Pair(1,size - 2),
+        Pair(2,size - 2),
+        Pair(3,size - 2),
+        Pair(4,size - 2),
+        Pair(5,size - 2),
+        Pair(1,size - 3),
+        Pair(5,size - 3),
+        Pair(1,size - 4),
+        Pair(5,size - 4),
+        Pair(1,size - 5),
+        Pair(5,size - 5),
+        Pair(1,size - 6),
+        Pair(2,size - 6),
+        Pair(3,size - 6),
+        Pair(4,size - 6),
+        Pair(5,size - 6),
+        Pair(size - 8,size - 8),
+        Pair(size - 7,size - 8),
+        Pair(size - 6,size - 8),
+        Pair(size - 8,size - 7),
+        Pair(size - 6,size - 7),
+        Pair(size - 8,size - 6),
+        Pair(size - 7,size - 6),
+        Pair(size - 6,size - 6),
+    )
+
+    init {
+        generateQrMatrix()
+    }
+
+    fun generateQrMatrix() {
+        for (i in 0 until size) {
+            for (j in 0 until size) {
+                matrix[i][j] = when {
+                    Pair(i, j) in predefinedZeros -> 0
+                    Pair(i, j) in predefinedOnes -> 1
+                    else -> (0..1).random()
+                }
+            }
+        }
+    }
+
+    fun getQrMatrixValue(x: Int, y: Int): Int? =
+        if (x in 0 until size && y in 0 until size) matrix[x][y] else null
+
+    fun getQrMatrixSize() = size
+
+    companion object {
+        const val MIN_MATRIX_SIZE = 20
+        const val MAX_MATRIX_SIZE = 35
+        const val DEFAULT_MATRIX_SIZE = 30
+
+        fun create(size: Int): QrMatrix? =
+            if (size in MIN_MATRIX_SIZE..MAX_MATRIX_SIZE) QrMatrix(size) else null
+    }
+}
