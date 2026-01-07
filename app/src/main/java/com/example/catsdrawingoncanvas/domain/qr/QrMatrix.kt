@@ -1,8 +1,12 @@
 package com.example.catsdrawingoncanvas.domain.qr
 
+import androidx.compose.runtime.Stable
+
+@Stable
 class QrMatrix private constructor(private val size: Int) {
 
     private val matrix: Array<IntArray> = Array(size) { IntArray(size) }
+
     private val predefinedOnes = listOf(
         Pair(0,0),
         Pair(1,0),
@@ -200,9 +204,12 @@ class QrMatrix private constructor(private val size: Int) {
     fun getQrMatrixValue(x: Int, y: Int): Int? =
         if (x in 0 until size && y in 0 until size) matrix[x][y] else null
 
+    fun getQrMatrixSize() = size
+
     companion object {
         const val MIN_MATRIX_SIZE = 20
         const val MAX_MATRIX_SIZE = 35
+        const val DEFAULT_MATRIX_SIZE = 30
 
         fun create(size: Int): QrMatrix? =
             if (size in MIN_MATRIX_SIZE..MAX_MATRIX_SIZE) QrMatrix(size) else null

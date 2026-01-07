@@ -25,7 +25,7 @@ import com.example.catsdrawingoncanvas.domain.qr.rememberEasyCanvasController
 
 @Composable
 fun Playground(
-    qrMatrixSize: Int,
+    qrMatrix: QrMatrix?,
     modifier: Modifier = Modifier
 ) {
     val infiniteTransition = rememberInfiniteTransition()
@@ -47,11 +47,11 @@ fun Playground(
     )
     EasyCanvas(
         controller = controller,
-        modifier = modifier.sizeIn(200.dp, 200.dp)
+        modifier = modifier.sizeIn(250.dp, 250.dp)
     ) {
+        val qrMatrixSize = qrMatrix?.getQrMatrixSize() ?: QrMatrix.DEFAULT_MATRIX_SIZE
         val cellSize = contentRect.size / qrMatrixSize.toFloat()
         val transformedContentRect = contentMatrix.map(contentRect)
-        val qrMatrix = QrMatrix.create(qrMatrixSize)
         onDrawBehind {
             val gradientStart = size.width * animatedGradient
             val gradientEnd = size.width * (animatedGradient + 0.5f)
@@ -100,6 +100,6 @@ fun Playground(
 @Composable
 fun PlaygroundPreview() {
     Playground(
-        qrMatrixSize = 30
+        qrMatrix = QrMatrix.create(QrMatrix.DEFAULT_MATRIX_SIZE)
     )
 }

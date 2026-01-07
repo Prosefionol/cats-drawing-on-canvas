@@ -20,7 +20,7 @@ import com.example.catsdrawingoncanvas.ui.navigation.LocalNavController
 import com.example.catsdrawingoncanvas.ui.navigation.MainTabs
 import com.example.catsdrawingoncanvas.ui.navigation.QrGraph
 import com.example.catsdrawingoncanvas.ui.screens.kaleidoscope.AnotherPlayground
-import com.example.catsdrawingoncanvas.ui.screens.qr.Playground
+import com.example.catsdrawingoncanvas.ui.screens.qr.QrScreen
 import com.example.catsdrawingoncanvas.ui.theme.CatsDrawingOnCanvasTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -63,11 +63,7 @@ fun CatsDrawingOnCanvasApp() {
                     startDestination = QrGraph.QrRoute
                 ) {
                     composable<QrGraph.QrRoute> {
-                        Playground(
-                            qrMatrixSize = 30,
-                            modifier = Modifier
-                                .fillMaxSize()
-                        )
+                        QrScreen()
                     }
                 }
                 navigation<KaleidoscopeGraph>(
